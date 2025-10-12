@@ -34,9 +34,25 @@ database/
 
 Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
 
-**Perintah:**
+**Jalankan perintah satu persatu:**
 ```bash
-php artisan make:migration create_books_table
+php artisan make:model Member -ms
+```
+```bash
+php artisan make:model Author -ms
+```
+```bash
+php artisan make:model Book -ms
+```
+```bash
+php artisan make:model Loan -ms
+```
+```bash
+php artisan make:model Publisher -ms
+```
+
+**Terakhit Perintah:**
+```bash
 php artisan migrate
 ```
 

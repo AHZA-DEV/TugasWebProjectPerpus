@@ -30,6 +30,17 @@ database/
 └── seeders/            # File seeder
 ```
 
+
+## 📌 Tugas / Milestone
+
+1. ✅ Buat migration untuk semua tabel (members, books, authors, publishers, loans)
+2. ✅ Buat minimal 1 seeder untuk mengisi dummy data
+3. ✅ Pastikan migration & seeder berjalan lancar di MySQL
+4. ✅ Push kode ke repository GitHub
+
+---
+
+
 ### 2. Migration
 
 Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
@@ -56,77 +67,8 @@ php artisan make:model Publisher -ms
 php artisan migrate
 ```
 
-### 3. Seeder
 
-Seeder digunakan untuk mengisi tabel dengan dummy data awal.
-
-**Perintah:**
-```bash
-php artisan db:seed
-```
-
-### 4. Model
-
-Model merepresentasikan tabel di database.
-
-**Contoh:** `Book.php` untuk tabel `books`
-
-**Perintah:**
-```bash
-php artisan make:model Book
-```
-
----
-
-## 🛠️ Langkah Praktik
-
-### 1. Konfigurasi Database di .env
-
-Edit file `.env`:
-
-```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
-DB_DATABASE=digital_library
-DB_USERNAME=root
-DB_PASSWORD=
-```
-
-### 2. Buat Migration
-
-Buat migration untuk tabel: anggota, buku, author, penerbit, peminjaman.
-
-```bash
-php artisan make:migration create_members_table
-php artisan make:migration create_authors_table
-php artisan make:migration create_publishers_table
-php artisan make:migration create_books_table
-php artisan make:migration create_loans_table
-```
-
-### 3. Buat Model
-
-```bash
-php artisan make:model Member
-php artisan make:model Author
-php artisan make:model Publisher
-php artisan make:model Book
-php artisan make:model Loan
-```
-
-### 4. Buat Seeder
-
-```bash
-php artisan make:seeder MemberSeeder
-php artisan make:seeder AuthorSeeder
-php artisan make:seeder PublisherSeeder
-php artisan make:seeder BookSeeder
-```
-
----
-
-## 📂 Struktur Project
+## 📂 Maka Hasil nya menjadi Struktur Project seperti dibawah
 
 ```
 database/
@@ -146,7 +88,9 @@ database/
 
 ---
 
-## 🔹 Migration Files
+## 🔹 Migration Files pada folder database/migrations/
+isikan code tersebut sesuai pada nama file nya
+Ctrl A (Blok semua code) yang ada project kamu lalu paste kan code saya berikan ini semua sesuai pada file di project
 
 ### 1. create_members_table.php
 
@@ -157,8 +101,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
         Schema::create('members', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -168,7 +117,11 @@ return new class extends Migration {
         });
     }
 
-    public function down(): void {
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
         Schema::dropIfExists('members');
     }
 };
@@ -183,8 +136,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
         Schema::create('authors', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -192,7 +150,11 @@ return new class extends Migration {
         });
     }
 
-    public function down(): void {
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
         Schema::dropIfExists('authors');
     }
 };
@@ -207,8 +169,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
         Schema::create('publishers', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -216,7 +183,11 @@ return new class extends Migration {
         });
     }
 
-    public function down(): void {
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
         Schema::dropIfExists('publishers');
     }
 };
@@ -231,8 +202,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('title');
@@ -242,7 +218,11 @@ return new class extends Migration {
         });
     }
 
-    public function down(): void {
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
         Schema::dropIfExists('books');
     }
 };
@@ -257,8 +237,13 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
-    public function up(): void {
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
         Schema::create('loans', function (Blueprint $table) {
             $table->id();
             $table->foreignId('member_id')->constrained()->onDelete('cascade');
@@ -269,7 +254,11 @@ return new class extends Migration {
         });
     }
 
-    public function down(): void {
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
         Schema::dropIfExists('loans');
     }
 };
@@ -277,8 +266,9 @@ return new class extends Migration {
 
 ---
 
-## 🔹 Seeder Files
-
+## 🔹 Seeder Files pada folder database/seeders/
+isikan code tersebut sesuai pada nama file nya
+Ctrl A (Blok semua code) yang ada project kamu lalu paste kan code yang saya berikan ini semua sesuai pada file di project
 ### 1. MemberSeeder.php
 
 ```php
@@ -286,14 +276,29 @@ return new class extends Migration {
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class MemberSeeder extends Seeder {
-    public function run(): void {
+class MemberSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
         DB::table('members')->insert([
-            ['name' => 'Ali', 'email' => 'ali@mail.com', 'phone' => '081234567'],
-            ['name' => 'Budi', 'email' => 'budi@mail.com', 'phone' => '081987654'],
+            [
+                'name' => 'Ali',
+                'email' => 'ali@mail.com',
+                'phone' => '081234567'
+            ],
+            [
+                'name' => 'Budi',
+                'email' => 'budi@mail.com',
+                'phone' => '081987654'
+            ],
         ]);
     }
 }
@@ -306,11 +311,18 @@ class MemberSeeder extends Seeder {
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class AuthorSeeder extends Seeder {
-    public function run(): void {
+class AuthorSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
         DB::table('authors')->insert([
             ['name' => 'Tere Liye'],
             ['name' => 'Andrea Hirata'],
@@ -326,11 +338,18 @@ class AuthorSeeder extends Seeder {
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PublisherSeeder extends Seeder {
-    public function run(): void {
+class PublisherSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
         DB::table('publishers')->insert([
             ['name' => 'Gramedia'],
             ['name' => 'Mizan'],
@@ -346,14 +365,29 @@ class PublisherSeeder extends Seeder {
 
 namespace Database\Seeders;
 
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class BookSeeder extends Seeder {
-    public function run(): void {
+class BookSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
         DB::table('books')->insert([
-            ['title' => 'Bumi', 'author_id' => 1, 'publisher_id' => 1],
-            ['title' => 'Laskar Pelangi', 'author_id' => 2, 'publisher_id' => 2],
+            [
+                'title' => 'Bumi',
+                'author_id' => 1,
+                'publisher_id' => 1
+            ],
+            [
+                'title' => 'Laskar Pelangi',
+                'author_id' => 2,
+                'publisher_id' => 2
+            ],
         ]);
     }
 }
@@ -368,10 +402,36 @@ Daftarkan semua seeder di `DatabaseSeeder.php`:
 
 namespace Database\Seeders;
 
+use App\Models\User;
+// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker; // Impor class Faker
+use Illuminate\Support\Facades\Hash; // Impor Hash untuk password
 
-class DatabaseSeeder extends Seeder {
-    public function run(): void {
+class DatabaseSeeder extends Seeder
+{
+    /**
+     * Seed the application's database.
+     */
+    public function run(): void
+    {
+        $faker = Faker::create('id_ID'); // Buat instance Faker dengan locale Indonesia
+
+        $users = [];
+        for ($i = 0; $i < 50; $i++) { // Ulangi untuk membuat 50 pengguna
+            $users[] = [
+                'name' => $faker->name,
+                'email' => $faker->unique()->email, // Gunakan unique() untuk memastikan email unik
+                'password' => Hash::make('password'), // Gunakan Hash::make() untuk hashing password
+                'created_at' => now(),
+                'updated_at' => now(),
+            ];
+        }
+
+        DB::table('users')->insert($users); // Masukkan semua data sekaligus
+
+        // Tugas
         $this->call([
             MemberSeeder::class,
             AuthorSeeder::class,
@@ -386,7 +446,7 @@ class DatabaseSeeder extends Seeder {
 
 ## 🚀 Menjalankan Migration & Seeder
 
-### Jalankan Migration
+### Jalankan Migration pada terminal tekan ctrl + `
 ```bash
 php artisan migrate
 ```
@@ -395,42 +455,5 @@ php artisan migrate
 ```bash
 # Jalankan semua seeder
 php artisan db:seed
-
-# Atau jalankan seeder spesifik
-php artisan db:seed --class=MemberSeeder
 ```
 
-### Jalankan Migration Fresh + Seeder (Reset Database)
-```bash
-php artisan migrate:fresh --seed
-```
-
----
-
-## 📌 Tugas / Milestone
-
-1. ✅ Buat migration untuk semua tabel (members, books, authors, publishers, loans)
-2. ✅ Buat minimal 1 seeder untuk mengisi dummy data
-3. ✅ Pastikan migration & seeder berjalan lancar di MySQL
-4. ✅ Push kode ke repository GitHub
-
----
-
-## 📝 Catatan Penting
-
-- Pastikan database `digital_library` sudah dibuat di MySQL sebelum menjalankan migration
-- Urutan migration penting karena ada foreign key constraints
-- Seeder harus dijalankan setelah migration berhasil
-- Gunakan `php artisan migrate:fresh --seed` untuk reset database dan isi ulang data
-
----
-
-## 🔗 Referensi
-
-- [Laravel Migration Documentation](https://laravel.com/docs/migrations)
-- [Laravel Seeding Documentation](https://laravel.com/docs/seeding)
-- [Laravel Eloquent Models](https://laravel.com/docs/eloquent)
-
----
-
-**Happy Coding! 🚀**

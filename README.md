@@ -1,4 +1,4 @@
-_
+---
 # 📘 Modul Minggu 5 – Laravel: Migration & Model
 
 ## 📖 Tugas Milestone Web-Framework
@@ -100,8 +100,8 @@ php artisan migrate
 ```bash
 php artisan db:seed --class=MemberSeeder
 ```
-
-###============================================================================================
+---
+###=======================================================================================
 
 Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
 
@@ -180,7 +180,7 @@ php artisan migrate
 ```bash
 php artisan db:seed --class=AuthorSeeder
 ```
-
+---
 ###=====================================================================================
 
 
@@ -261,7 +261,7 @@ php artisan migrate
 ```bash
 php artisan db:seed --class=PublisherSeeder
 ```
-
+---
 ###=====================================================================================
 
 
@@ -352,7 +352,7 @@ php artisan migrate
 ```bash
 php artisan db:seed --class=BookSeeder
 ```
-
+---
 ###=====================================================================================
 
 Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
@@ -434,9 +434,10 @@ class DatabaseSeeder extends Seeder
     }
 }
 ```
-
+---
 
 **Terakhit Perintah diterminal:**
 ```bash
 php artisan migrate
 ```
+---

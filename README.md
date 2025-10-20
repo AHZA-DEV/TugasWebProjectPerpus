@@ -1,38 +1,7 @@
-
+_
 # 📘 Modul Minggu 5 – Laravel: Migration & Model
 
-## 🎯 Tujuan Pembelajaran
-
-1. Mahasiswa memahami struktur MVC pada Laravel
-2. Mahasiswa mampu membuat migration, model, dan seeder
-3. Mahasiswa dapat menjalankan migrasi database MySQL di Laravel
-
----
-
-## 📖 Materi Teori
-
-### 1. Struktur Laravel (MVC)
-
-Laravel menggunakan arsitektur MVC (Model–View–Controller):
-
-- **Model** → representasi data dari tabel di database (misalnya `Book.php`, `Member.php`)
-- **View** → tampilan (Blade Template atau frontend Vue.js, nanti dipisahkan)
-- **Controller** → penghubung logika bisnis antara model dan view
-
-#### Struktur folder utama:
-```
-app/
-├── Models/              # Model database
-└── Http/
-    └── Controllers/
-database/
-├── migrations/          # File migration
-└── seeders/            # File seeder
-```
-
-
-## 📌 Tugas / Milestone
-
+## 📖 Tugas Milestone Web-Framework
 1. ✅ Buat migration untuk semua tabel (members, books, authors, publishers, loans)
 2. ✅ Buat minimal 1 seeder untuk mengisi dummy data
 3. ✅ Pastikan migration & seeder berjalan lancar di MySQL
@@ -41,58 +10,18 @@ database/
 ---
 
 
-### 2. Migration
+### IKUTI LANGKAH BERIKUT
 
 Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
 
-**Jalankan perintah satu persatu:**
+**Jalankan perintah diterminal:**
 ```bash
 php artisan make:model Member -ms
 ```
-```bash
-php artisan make:model Author -ms
-```
-```bash
-php artisan make:model Book -ms
-```
-```bash
-php artisan make:model Loan -ms
-```
-```bash
-php artisan make:model Publisher -ms
-```
-
-**Terakhit Perintah:**
-```bash
-php artisan migrate
-```
-
-
-## 📂 Maka Hasil nya menjadi Struktur Project seperti dibawah
-
-```
-database/
-├── migrations/
-│   ├── 2025_xx_xx_create_members_table.php
-│   ├── 2025_xx_xx_create_authors_table.php
-│   ├── 2025_xx_xx_create_publishers_table.php
-│   ├── 2025_xx_xx_create_books_table.php
-│   └── 2025_xx_xx_create_loans_table.php
-└── seeders/
-    ├── MemberSeeder.php
-    ├── AuthorSeeder.php
-    ├── PublisherSeeder.php
-    ├── BookSeeder.php
-    └── DatabaseSeeder.php
-```
 
 ---
-
-## 🔹 Migration Files pada folder database/migrations/
-isikan code tersebut sesuai pada nama file nya
-Ctrl A (Blok semua code) yang ada project kamu lalu paste kan code saya berikan ini semua sesuai pada file di project
-
-### 1. create_members_table.php
+### Paste kan di database/migrations/ sesuaikan dengan nama di migration nya
+### - create_members_table.php
 
 ```php
 <?php
@@ -127,7 +56,63 @@ return new class extends Migration
 };
 ```
 
-### 2. create_authors_table.php
+### Paste kan di database/seeders/ sesuaikan dengan nama di Seeder nya
+### - MemberSeeder.php
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class MemberSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+        DB::table('members')->insert([
+            [
+                'name' => 'Ali',
+                'email' => 'ali@mail.com',
+                'phone' => '081234567'
+            ],
+            [
+                'name' => 'Budi',
+                'email' => 'budi@mail.com',
+                'phone' => '081987654'
+            ],
+        ]);
+    }
+}
+```
+
+
+**Terakhit Perintah diterminal:**
+```bash
+php artisan migrate
+```
+```bash
+php artisan db:seed --class=MemberSeeder
+```
+
+###============================================================================================
+
+Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
+
+**Jalankan perintah satu persatu:**
+```bash
+php artisan make:model Author -ms
+```
+
+---
+### Paste kan di database/migrations/ sesuaikan dengan nama di migration nya
+### - create_authors_table.php
 
 ```php
 <?php
@@ -159,8 +144,54 @@ return new class extends Migration
     }
 };
 ```
+---
 
-### 3. create_publishers_table.php
+### Paste kan di database/seeders/ sesuaikan dengan nama di Seeder nya
+### - AuthorSeeder.php
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class AuthorSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+        DB::table('authors')->insert([
+            ['name' => 'Tere Liye'],
+            ['name' => 'Andrea Hirata'],
+        ]);
+    }
+}
+```
+**Terakhit Perintah:**
+```bash
+php artisan migrate
+```
+```bash
+php artisan db:seed --class=AuthorSeeder
+```
+
+###=====================================================================================
+
+
+Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
+
+**Jalankan perintah diterminal:**
+```bash
+php artisan make:model Publisher -ms
+```
+### Paste kan di database/migrations/ sesuaikan dengan nama di migration nya
+### - create_publishers_table.php
 
 ```php
 <?php
@@ -192,8 +223,56 @@ return new class extends Migration
     }
 };
 ```
+---
 
-### 4. create_books_table.php
+### Paste kan di database/seeders/ sesuaikan dengan nama di Seeder nya
+### - PublisherSeeder.php
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class PublisherSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+        DB::table('publishers')->insert([
+            ['name' => 'Gramedia'],
+            ['name' => 'Mizan'],
+        ]);
+    }
+}
+```
+
+
+**Terakhit Perintah diterminal:**
+```bash
+php artisan migrate
+```
+```bash
+php artisan db:seed --class=PublisherSeeder
+```
+
+###=====================================================================================
+
+
+Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
+
+**Jalankan perintah diterminal:**
+```bash
+php artisan make:model Book -ms
+```
+### Paste kan di database/migrations/ sesuaikan dengan nama di migration nya
+### - create_books_table.php
 
 ```php
 <?php
@@ -227,8 +306,63 @@ return new class extends Migration
     }
 };
 ```
+---
 
-### 5. create_loans_table.php
+### Paste kan di database/seeders/ sesuaikan dengan nama di Seeder nya
+### - BookSeeder.php
+
+```php
+<?php
+
+namespace Database\Seeders;
+
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
+
+class BookSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     */
+    public function run(): void
+    {
+        //
+        DB::table('books')->insert([
+            [
+                'title' => 'Bumi',
+                'author_id' => 1,
+                'publisher_id' => 1
+            ],
+            [
+                'title' => 'Laskar Pelangi',
+                'author_id' => 2,
+                'publisher_id' => 2
+            ],
+        ]);
+    }
+}
+```
+
+
+**Terakhit Perintah diterminal:**
+```bash
+php artisan migrate
+```
+```bash
+php artisan db:seed --class=BookSeeder
+```
+
+###=====================================================================================
+
+Migration adalah blueprint (cetak biru) untuk membuat tabel database dengan perintah Laravel.
+
+**Jalankan perintah diterminal:**
+```bash
+php artisan make:model Loan -ms
+```
+### Paste kan di database/migrations/ sesuaikan dengan nama di migration nya
+### - create_loans_table.php
 
 ```php
 <?php
@@ -266,134 +400,8 @@ return new class extends Migration
 
 ---
 
-## 🔹 Seeder Files pada folder database/seeders/
-isikan code tersebut sesuai pada nama file nya
-Ctrl A (Blok semua code) yang ada project kamu lalu paste kan code yang saya berikan ini semua sesuai pada file di project
-### 1. MemberSeeder.php
-
-```php
-<?php
-
-namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-
-class MemberSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        //
-        DB::table('members')->insert([
-            [
-                'name' => 'Ali',
-                'email' => 'ali@mail.com',
-                'phone' => '081234567'
-            ],
-            [
-                'name' => 'Budi',
-                'email' => 'budi@mail.com',
-                'phone' => '081987654'
-            ],
-        ]);
-    }
-}
-```
-
-### 2. AuthorSeeder.php
-
-```php
-<?php
-
-namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-
-class AuthorSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        //
-        DB::table('authors')->insert([
-            ['name' => 'Tere Liye'],
-            ['name' => 'Andrea Hirata'],
-        ]);
-    }
-}
-```
-
-### 3. PublisherSeeder.php
-
-```php
-<?php
-
-namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-
-class PublisherSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        //
-        DB::table('publishers')->insert([
-            ['name' => 'Gramedia'],
-            ['name' => 'Mizan'],
-        ]);
-    }
-}
-```
-
-### 4. BookSeeder.php
-
-```php
-<?php
-
-namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-
-class BookSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        //
-        DB::table('books')->insert([
-            [
-                'title' => 'Bumi',
-                'author_id' => 1,
-                'publisher_id' => 1
-            ],
-            [
-                'title' => 'Laskar Pelangi',
-                'author_id' => 2,
-                'publisher_id' => 2
-            ],
-        ]);
-    }
-}
-```
-
-### 5. DatabaseSeeder.php
+### Paste kan di database/seeders/ sesuaikan dengan nama di Seeder nya
+### - DatabaseSeeder.php
 
 Daftarkan semua seeder di `DatabaseSeeder.php`:
 
@@ -416,21 +424,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $faker = Faker::create('id_ID'); // Buat instance Faker dengan locale Indonesia
-
-        $users = [];
-        for ($i = 0; $i < 50; $i++) { // Ulangi untuk membuat 50 pengguna
-            $users[] = [
-                'name' => $faker->name,
-                'email' => $faker->unique()->email, // Gunakan unique() untuk memastikan email unik
-                'password' => Hash::make('password'), // Gunakan Hash::make() untuk hashing password
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
-        }
-
-        DB::table('users')->insert($users); // Masukkan semua data sekaligus
-
         // Tugas
         $this->call([
             MemberSeeder::class,
@@ -442,18 +435,8 @@ class DatabaseSeeder extends Seeder
 }
 ```
 
----
 
-## 🚀 Menjalankan Migration & Seeder
-
-### Jalankan Migration pada terminal tekan ctrl + `
+**Terakhit Perintah diterminal:**
 ```bash
 php artisan migrate
 ```
-
-### Jalankan Seeder
-```bash
-# Jalankan semua seeder
-php artisan db:seed
-```
-

@@ -345,3 +345,433 @@ Semua hanya bisa diakses setelah login.
 - Sanctum cocok untuk API sederhana (token-based).
 - Jika ingin API dengan otorisasi kompleks, bisa gunakan Laravel Passport (OAuth2).
 - Token akan tersimpan di tabel personal_access_tokens.
+
+
+---
+
+# 📚 Digital Library API Documentation
+
+## Overview
+RESTful API untuk sistem manajemen perpustakaan digital dengan authentication menggunakan Laravel Sanctum. Semua endpoint (kecuali login) memerlukan token authentication.
+
+**Base URL**: `http://localhost:8000/api`
+
+---
+
+## 🔐 Authentication
+
+### Login
+Mendapatkan token akses untuk authentication.
+
+- **URL**: `/login`
+- **Method**: `POST`
+- **Authentication**: Tidak diperlukan
+
+**Request Body**:
+```json
+{
+    "email": "admin@mail.com",
+    "password": "password"
+}
+```
+
+**Response Success**:
+```json
+{
+    "message": "Login success",
+    "token": "1|randomlongtokenstring...",
+    "admin": {
+        "id": 1,
+        "name": "Super Admin",
+        "email": "admin@mail.com"
+    }
+}
+```
+
+**Response Error**:
+```json
+{
+    "message": "Invalid credentials"
+}
+```
+
+### Logout
+Menghapus token akses (logout).
+
+- **URL**: `/logout`
+- **Method**: `POST`
+- **Authentication**: **Required** (Bearer Token)
+
+**Response Success**:
+```json
+{
+    "message": "Logged out"
+}
+```
+
+---
+
+## 👥 Members Management
+
+### Get All Members
+Mendapatkan daftar semua anggota.
+
+- **URL**: `/members`
+- **Method**: `GET`
+- **Authentication**: **Required**
+
+**Response**:
+```json
+[
+    {
+        "id": 1,
+        "name": "Siti Nurhaliza",
+        "email": "siti@email.com",
+        "phone": "081234567890",
+        "created_at": "2024-01-15T10:30:00.000000Z",
+        "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
+]
+```
+
+### Get Specific Member
+Mendapatkan detail anggota berdasarkan ID.
+
+- **URL**: `/members/{id}`
+- **Method**: `GET`
+- **Authentication**: **Required**
+
+### Create New Member
+Membuat anggota baru.
+
+- **URL**: `/members`
+- **Method**: `POST`
+- **Authentication**: **Required**
+
+**Request Body**:
+```json
+{
+    "name": "Siti Nurhaliza",
+    "email": "siti@email.com",
+    "phone": "081234567890"
+}
+```
+
+**Response Success**:
+```json
+{
+    "message": "Member created successfully",
+    "data": {
+        "id": 2,
+        "name": "Siti Nurhaliza",
+        "email": "siti@email.com",
+        "phone": "081234567890",
+        "created_at": "2024-01-15T10:30:00.000000Z",
+        "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
+}
+```
+
+### Update Member
+Memperbarui data anggota.
+
+- **URL**: `/members/{id}`
+- **Method**: `PUT`
+- **Authentication**: **Required**
+
+**Request Body**:
+```json
+{
+    "name": "Siti Nurhaliza Updated",
+    "email": "siti.updated@email.com",
+    "phone": "081234567891"
+}
+```
+
+### Delete Member
+Menghapus anggota.
+
+- **URL**: `/members/{id}`
+- **Method**: `DELETE`
+- **Authentication**: **Required**
+
+---
+
+## ✍️ Authors Management
+
+### Get All Authors
+Mendapatkan daftar semua penulis.
+
+- **URL**: `/authors`
+- **Method**: `GET`
+- **Authentication**: **Required**
+
+**Response**:
+```json
+[
+    {
+        "id": 1,
+        "name": "Andrea Hirata",
+        "created_at": "2024-01-15T10:30:00.000000Z",
+        "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
+]
+```
+
+### Create New Author
+Membuat penulis baru.
+
+- **URL**: `/authors`
+- **Method**: `POST`
+- **Authentication**: **Required**
+
+**Request Body**:
+```json
+{
+    "name": "Andrea Hirata"
+}
+```
+
+### Update Author
+Memperbarui data penulis.
+
+- **URL**: `/authors/{id}`
+- **Method**: `PUT`
+- **Authentication**: **Required**
+
+### Delete Author
+Menghapus penulis.
+
+- **URL**: `/authors/{id}`
+- **Method**: `DELETE`
+- **Authentication**: **Required**
+
+---
+
+## 🏢 Publishers Management
+
+### Get All Publishers
+Mendapatkan daftar semua penerbit.
+
+- **URL**: `/publishers`
+- **Method**: `GET`
+- **Authentication**: **Required**
+
+**Response**:
+```json
+[
+    {
+        "id": 1,
+        "name": "Gramedia Pustaka Utama",
+        "created_at": "2024-01-15T10:30:00.000000Z",
+        "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
+]
+```
+
+### Create New Publisher
+Membuat penerbit baru.
+
+- **URL**: `/publishers`
+- **Method**: `POST`
+- **Authentication**: **Required**
+
+**Request Body**:
+```json
+{
+    "name": "Gramedia Pustaka Utama"
+}
+```
+
+### Update Publisher
+Memperbarui data penerbit.
+
+- **URL**: `/publishers/{id}`
+- **Method**: `PUT`
+- **Authentication**: **Required**
+
+### Delete Publisher
+Menghapus penerbit.
+
+- **URL**: `/publishers/{id}`
+- **Method**: `DELETE**
+- **Authentication**: **Required**
+
+---
+
+## 📚 Books Management
+
+### Get All Books
+Mendapatkan daftar semua buku.
+
+- **URL**: `/books`
+- **Method**: `GET`
+- **Authentication**: **Required**
+
+**Response**:
+```json
+[
+    {
+        "id": 1,
+        "title": "Laskar Pelangi",
+        "author_id": 1,
+        "publisher_id": 1,
+        "author": {
+            "id": 1,
+            "name": "Andrea Hirata"
+        },
+        "publisher": {
+            "id": 1,
+            "name": "Gramedia Pustaka Utama"
+        },
+        "created_at": "2024-01-15T10:30:00.000000Z",
+        "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
+]
+```
+
+### Create New Book
+Membuat buku baru.
+
+- **URL**: `/books`
+- **Method**: `POST`
+- **Authentication**: **Required**
+
+**Request Body**:
+```json
+{
+    "title": "Laskar Pelangi",
+    "author_id": 1,
+    "publisher_id": 1
+}
+```
+
+### Update Book
+Memperbarui data buku.
+
+- **URL**: `/books/{id}`
+- **Method**: `PUT`
+- **Authentication**: **Required**
+
+### Delete Book
+Menghapus buku.
+
+- **URL**: `/books/{id}`
+- **Method**: `DELETE`
+- **Authentication**: **Required**
+
+---
+
+## 🔄 Loans Management
+
+### Get All Loans
+Mendapatkan daftar semua peminjaman.
+
+- **URL**: `/loans`
+- **Method**: `GET`
+- **Authentication**: **Required**
+
+**Response**:
+```json
+[
+    {
+        "id": 1,
+        "member_id": 1,
+        "book_id": 1,
+        "loan_date": "2024-10-24",
+        "return_date": null,
+        "status": "borrowed",
+        "member": {
+            "id": 1,
+            "name": "Siti Nurhaliza"
+        },
+        "book": {
+            "id": 1,
+            "title": "Laskar Pelangi"
+        },
+        "created_at": "2024-01-15T10:30:00.000000Z",
+        "updated_at": "2024-01-15T10:30:00.000000Z"
+    }
+]
+```
+
+### Create New Loan
+Membuat peminjaman baru.
+
+- **URL**: `/loans`
+- **Method**: `POST`
+- **Authentication**: **Required**
+
+**Request Body**:
+```json
+{
+    "member_id": 1,
+    "book_id": 1,
+    "loan_date": "2024-10-24",
+    "return_date": null
+}
+```
+
+### Update Loan
+Memperbarui data peminjaman (misalnya: mengembalikan buku).
+
+- **URL**: `/loans/{id}`
+- **Method**: `PUT**
+- **Authentication**: **Required**
+
+**Request Body untuk Pengembalian Buku**:
+```json
+{
+    "return_date": "2024-10-30"
+}
+```
+
+### Delete Loan
+Menghapus data peminjaman.
+
+- **URL**: `/loans/{id}`
+- **Method**: `DELETE`
+- **Authentication**: **Required**
+
+---
+
+## 🛠️ Testing dengan Postman
+
+### 1. Setup Authentication
+1. **Login** terlebih dahulu di endpoint `/login`
+2. **Copy token** dari response
+3. **Set Authorization Header** di Postman:
+   - Type: `Bearer Token`
+   - Token: `paste_token_di_sini`
+
+### 2. Collection Structure di Postman
+```
+Digital Library API/
+├── Authentication
+│   ├── Login (POST)
+│   └── Logout (POST)
+├── Members (CRUD)
+├── Authors (CRUD)
+├── Publishers (CRUD)
+├── Books (CRUD)
+└── Loans (CRUD)
+```
+
+### 3. Environment Variables (Opsional)
+Buat environment variables di Postman:
+```javascript
+{
+  "base_url": "http://localhost:8000/api",
+  "token": "bearer_token_here"
+}
+```
+---
+
+
+## 💡 Tips Testing
+
+1. **Simpan token** setelah login untuk digunakan di request berikutnya
+2. **Gunakan environment variables** di Postman untuk manage token dan base URL
+3. **Test error scenarios**: invalid token, missing fields, invalid IDs
+4. **Check response codes**: 200 (success), 201 (created), 401 (unauthorized), 404 (not found)
+5. **Validate data relationships**: pastikan book memiliki author dan publisher yang valid

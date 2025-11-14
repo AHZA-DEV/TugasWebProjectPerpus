@@ -1,51 +1,5 @@
 # Minggu 7 – API Lanjutan (Relasi & Authentication dengan Laravel Sanctum)
 
-## Tujuan Pembelajaran
-
-Setelah mengikuti pertemuan ini, mahasiswa mampu:
-
-1. Memahami konsep authentication API (token-based).
-2. Menggunakan Laravel Sanctum untuk login Admin.
-3. Mengamankan endpoint dengan middleware auth:sanctum.
-4. Menghubungkan relasi antar tabel (anggota-peminjaman-buku-author-penerbit).
-
-## Materi Teori
-
-### 1. Konsep Authentication API
-- Authentication dibutuhkan untuk **membatasi** **akses API**.
-- Sistem akan mengeluarkan **token** saat user berhasil login.
-- Token digunakan untuk mengakses endpoint tertentu (misalnya CRUD data).
-
-#### Analogi:
-Token = kartu identitas digital untuk mengakses API.
-
-### 2. Laravel Sanctum
-
-Laravel Sanctum menyediakan mekanisme **authentication ringan** untuk SPA (Single Page App), mobile app, dan API.
-Sanctum menyimpan token di tabel personal_access_tokens.
-
-### 3. Relasi Antar Tabel (Eloquent Relationship)
-
-Laravel menyediakan method untuk mendefinisikan relasi antar model:
-
-- hasMany() → satu ke banyak
-- belongsTo() → banyak ke satu
-- belongsToMany() → banyak ke banyak
-
-**Contoh:**
-
-```php
-// Model Book
-public function author() {
-    return $this->belongsTo(Author::class);
-}
-
-// Model Author
-public function books() {
-    return $this->hasMany(Book::class);
-}
-```
-
 # Langkah Praktik
 
 ## ❶ Install Laravel Sanctum

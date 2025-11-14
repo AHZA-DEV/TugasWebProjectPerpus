@@ -2,14 +2,14 @@
 
 # Langkah Praktik
 
-## ❶ Install Laravel Sanctum
+## ❶ Install Laravel Sanctum ( SKIP )
 ```bash
 composer require laravel/sanctum
 ```
 
 ## ❷ Menginstal package Sanctum ke dalam project Laravel.
 
-## ❸ Publikasi dan Migrasi
+## ❸ Publikasi dan Migrasi ( SKIP )
 ```bash
 php artisan vendor:publish --provider="Laravel\Sanctum\SanctumServiceProvider"
 php artisan migrate

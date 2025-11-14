@@ -20,19 +20,7 @@ php artisan migrate
 
 ## ❻ Aktifkan Middleware Sanctum
 
-**A. Untuk Laravel di bawah 11** ada di `app/Http/Kernel.php`
-
-Tambahkan Sanctum middleware di grup api (biasanya sudah otomatis terpasang):
-
-```php
-'api' => [
-    \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-    'throttle:api',
-    \Illuminate\Routing\Middleware\SubstituteBindings::class,
-],
-```
-
-**B. Untuk Laravel 11 ke atas** ada di `bootstrap/app.php`
+**Untuk Laravel 12 ke atas** ada di `bootstrap/app.php`
 
 File `app/Http/Kernel.php` tidak ada lagi di Laravel 12 (dan juga Laravel 11) karena struktur folder telah disederhanakan. Konfigurasi middleware sekarang dilakukan di file `bootstrap/app.php`.
 

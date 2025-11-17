@@ -1,5 +1,4 @@
-# Minggu 7 – API Lanjutan (Relasi & Authentication dengan Laravel Sanctum)
-
+# Modul 7 – API Lanjutan (Relasi & Authentication dengan Laravel Sanctum) 
 # Langkah Praktik
 
 ## ❶ Install Laravel Sanctum ( SKIP )

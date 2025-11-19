@@ -444,15 +444,58 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('loans', LoanController::class);
 });
 ```
-
-**Penjelasan:**
-
-- `/login` tidak membutuhkan token.
-- Endpoint lain dilindungi oleh middleware `auth:sanctum`.
+---
 
 ## ✅ Tes di Postman
 
-### A. Login Admin
+# 📚 Dokumentasi REST API - Library Management System
+
+## Informasi Umum
+
+**Base URL:** `http://127.0.0.1:8000/api`
+
+### A. Register Admin
+
+**POST** → `http://localhost:8000/api/login`
+
+Body (JSON):
+```json
+{
+    "name": "adminRegister",
+    "email": "adminRegister@mail.com",
+    "password": "password123"
+}
+```
+
+**✅ Hasil:**
+```json
+{
+    "message": "Login success",
+    "token": "1|randomlongtokenstring...",
+    "admin": {
+        "id": 1,
+        "name": "adminRegister",
+        "email": "adminRegister@mail.com"
+    }
+}
+```
+### B. Logout Admin
+**Endpoint:** `POST /api/logout`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (200 OK):**
+```json
+{
+    "message": "Logged Out",
+}
+```
+### c. Login Admin
 
 **POST** → `http://localhost:8000/api/login`
 
@@ -476,298 +519,464 @@ Body (JSON):
     }
 }
 ```
+---
 
-### B. Gunakan Token
+## 📋 Daftar Endpoint
 
-Di setiap request berikutnya di Postman, tambahkan pada bagian Authorization:
-
-- **Type:** Bearer Token
-- **Token:** `1|randomlongtokenstring...` (isi dengan token dari hasil login tadi)
-
-### C. Tes Endpoint
-
-- `GET /api/books`
-- `POST /api/members`
-- `DELETE /api/authors/2`
-- dll.
-
-Semua hanya bisa diakses setelah login.
-
-## 📌 Latihan Mahasiswa (Tugas/Milestone)
-
-1. Implementasikan autentikasi admin menggunakan Laravel Sanctum.
-2. Pastikan semua endpoint CRUD hanya dapat diakses jika login.
-3. Simulasikan login dan pengujian CRUD di Postman.
-
-## 📌 Catatan Tambahan
-
-- Sanctum cocok untuk API sederhana (token-based).
-- Jika ingin API dengan otorisasi kompleks, bisa gunakan Laravel Passport (OAuth2).
-- Token akan tersimpan di tabel personal_access_tokens.
+### [1. Members (Anggota)](#1️⃣-members-api)
+### [2. Authors (Penulis)](2️⃣-authors-api)
+### [3. Publishers (Penerbit)](#3️⃣-publishers-api)
+### [4. Books (Buku)](#4️⃣-books-api)
+### [5. Loans (Peminjaman)](#5️⃣-loans-api)
 
 
 ---
 
-# 📚 Digital Library API Documentation
+## 1️⃣ MEMBERS API
 
-## Overview
-RESTful API untuk sistem manajemen perpustakaan digital dengan authentication menggunakan Laravel Sanctum. Semua endpoint (kecuali login) memerlukan token authentication.
+### 1.1 Get All Members
+Mendapatkan semua data anggota perpustakaan.
 
-**Base URL**: `http://localhost:8000/api`
+**Endpoint:** `GET /api/members`
 
----
-
-## 🔐 Authentication
-
-### Login
-Mendapatkan token akses untuk authentication.
-
-- **URL**: `/login`
-- **Method**: `POST`
-- **Authentication**: Tidak diperlukan
-
-**Request Body**:
-```json
-{
-    "email": "admin@mail.com",
-    "password": "password"
-}
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
 ```
 
-**Response Success**:
-```json
-{
-    "message": "Login success",
-    "token": "1|randomlongtokenstring...",
-    "admin": {
-        "id": 1,
-        "name": "Super Admin",
-        "email": "admin@mail.com"
-    }
-}
-```
-
-**Response Error**:
-```json
-{
-    "message": "Invalid credentials"
-}
-```
-
-### Logout
-Menghapus token akses (logout).
-
-- **URL**: `/logout`
-- **Method**: `POST`
-- **Authentication**: **Required** (Bearer Token)
-
-**Response Success**:
-```json
-{
-    "message": "Logged out"
-}
-```
-
----
-
-## 👥 Members Management
-
-### Get All Members
-Mendapatkan daftar semua anggota.
-
-- **URL**: `/members`
-- **Method**: `GET`
-- **Authentication**: **Required**
-
-**Response**:
+**Response Success (200 OK):**
 ```json
 [
     {
         "id": 1,
-        "name": "Siti Nurhaliza",
-        "email": "siti@email.com",
-        "phone": "081234567890",
-        "created_at": "2024-01-15T10:30:00.000000Z",
-        "updated_at": "2024-01-15T10:30:00.000000Z"
+        "name": "Siti",
+        "email": "siti@mail.com",
+        "phone": "081222333",
+        "created_at": "2025-10-24T10:00:00.000000Z",
+        "updated_at": "2025-10-24T10:00:00.000000Z"
     }
 ]
 ```
 
-### Get Specific Member
-Mendapatkan detail anggota berdasarkan ID.
+---
 
-- **URL**: `/members/{id}`
-- **Method**: `GET`
-- **Authentication**: **Required**
+### 1.2 Create Member
+Menambahkan anggota baru.
 
-### Create New Member
-Membuat anggota baru.
+**Endpoint:** `POST /api/members`
 
-- **URL**: `/members`
-- **Method**: `POST`
-- **Authentication**: **Required**
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
 
-**Request Body**:
+**Request Body:**
 ```json
 {
-    "name": "Siti Nurhaliza",
-    "email": "siti@email.com",
-    "phone": "081234567890"
+    "name": "Siti",
+    "email": "siti@mail.com",
+    "phone": "081222333"
 }
 ```
 
-**Response Success**:
+**Validation Rules:**
+- `name`: required (wajib diisi)
+- `email`: required, email format, unique (harus unik)
+- `phone`: required (wajib diisi)
+
+**Response Success (201 Created):**
 ```json
 {
-    "message": "Member created successfully",
-    "data": {
-        "id": 2,
-        "name": "Siti Nurhaliza",
-        "email": "siti@email.com",
-        "phone": "081234567890",
-        "created_at": "2024-01-15T10:30:00.000000Z",
-        "updated_at": "2024-01-15T10:30:00.000000Z"
+    "id": 1,
+    "name": "Siti",
+    "email": "siti@mail.com",
+    "phone": "081222333",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
+}
+```
+
+**Response Error (422 Unprocessable Entity):**
+```json
+{
+    "message": "The email has already been taken.",
+    "errors": {
+        "email": [
+            "The email has already been taken."
+        ]
     }
 }
 ```
 
-### Update Member
-Memperbarui data anggota.
+---
 
-- **URL**: `/members/{id}`
-- **Method**: `PUT`
-- **Authentication**: **Required**
+### 1.3 Get Member by ID
+Mendapatkan detail anggota berdasarkan ID.
 
-**Request Body**:
+**Endpoint:** `GET /api/members/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (200 OK):**
 ```json
 {
-    "name": "Siti Nurhaliza Updated",
-    "email": "siti.updated@email.com",
-    "phone": "081234567891"
+    "id": 1,
+    "name": "Siti",
+    "email": "siti@mail.com",
+    "phone": "081222333",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
 }
 ```
 
-### Delete Member
-Menghapus anggota.
-
-- **URL**: `/members/{id}`
-- **Method**: `DELETE`
-- **Authentication**: **Required**
+**Response Error (404 Not Found):**
+```json
+{
+    "message": "No query results for model [App\\Models\\Member]."
+}
+```
 
 ---
 
-## ✍️ Authors Management
+### 1.4 Update Member
+Mengupdate data anggota.
 
-### Get All Authors
-Mendapatkan daftar semua penulis.
+**Endpoint:** `PUT /api/members/{id}` atau `PATCH /api/members/{id}`
 
-- **URL**: `/authors`
-- **Method**: `GET`
-- **Authentication**: **Required**
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
 
-**Response**:
+**Request Body:**
+```json
+{
+    "name": "Siti Updated",
+    "email": "siti.updated@mail.com",
+    "phone": "081222444"
+}
+```
+
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "name": "Siti Updated",
+    "email": "siti.updated@mail.com",
+    "phone": "081222444",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T11:00:00.000000Z"
+}
+```
+
+---
+
+### 1.5 Delete Member
+Menghapus data anggota.
+
+**Endpoint:** `DELETE /api/members/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (204 No Content):**
+```
+(No content returned)
+```
+
+---
+
+## 2️⃣ AUTHORS API
+
+### 2.1 Get All Authors
+
+**Endpoint:** `GET /api/authors`
+ 
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (200 OK):**
 ```json
 [
     {
         "id": 1,
         "name": "Andrea Hirata",
-        "created_at": "2024-01-15T10:30:00.000000Z",
-        "updated_at": "2024-01-15T10:30:00.000000Z"
+        "created_at": "2025-10-24T10:00:00.000000Z",
+        "updated_at": "2025-10-24T10:00:00.000000Z"
     }
 ]
 ```
 
-### Create New Author
-Membuat penulis baru.
+---
 
-- **URL**: `/authors`
-- **Method**: `POST`
-- **Authentication**: **Required**
+### 2.2 Create Author
 
-**Request Body**:
+**Endpoint:** `POST /api/authors`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Request Body:**
 ```json
 {
     "name": "Andrea Hirata"
 }
 ```
 
-### Update Author
-Memperbarui data penulis.
+**Validation Rules:**
+- `name`: required (wajib diisi)
 
-- **URL**: `/authors/{id}`
-- **Method**: `PUT`
-- **Authentication**: **Required**
-
-### Delete Author
-Menghapus penulis.
-
-- **URL**: `/authors/{id}`
-- **Method**: `DELETE`
-- **Authentication**: **Required**
+**Response Success (201 Created):**
+```json
+{
+    "id": 1,
+    "name": "Andrea Hirata",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
+}
+```
 
 ---
 
-## 🏢 Publishers Management
+### 2.3 Get Author by ID
 
-### Get All Publishers
-Mendapatkan daftar semua penerbit.
+**Endpoint:** `GET /api/authors/{id}`
 
-- **URL**: `/publishers`
-- **Method**: `GET`
-- **Authentication**: **Required**
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
 
-**Response**:
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "name": "Andrea Hirata",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
+}
+```
+
+---
+
+### 2.4 Update Author
+
+**Endpoint:** `PUT /api/authors/{id}` atau `PATCH /api/authors/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+    "name": "Andrea Hirata Updated"
+}
+```
+
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "name": "Andrea Hirata Updated",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T11:00:00.000000Z"
+}
+```
+
+---
+
+### 2.5 Delete Author
+
+**Endpoint:** `DELETE /api/authors/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (204 No Content):**
+```
+(No content returned)
+```
+
+---
+
+## 3️⃣ PUBLISHERS API
+
+### 3.1 Get All Publishers
+
+**Endpoint:** `GET /api/publishers`
+ 
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (200 OK):**
 ```json
 [
     {
         "id": 1,
-        "name": "Gramedia Pustaka Utama",
-        "created_at": "2024-01-15T10:30:00.000000Z",
-        "updated_at": "2024-01-15T10:30:00.000000Z"
+        "name": "Gramedia",
+        "created_at": "2025-10-24T10:00:00.000000Z",
+        "updated_at": "2025-10-24T10:00:00.000000Z"
     }
 ]
 ```
 
-### Create New Publisher
-Membuat penerbit baru.
+---
 
-- **URL**: `/publishers`
-- **Method**: `POST`
-- **Authentication**: **Required**
+### 3.2 Create Publisher
 
-**Request Body**:
+**Endpoint:** `POST /api/publishers`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Request Body:**
 ```json
 {
-    "name": "Gramedia Pustaka Utama"
+    "name": "Gramedia"
 }
 ```
 
-### Update Publisher
-Memperbarui data penerbit.
+**Validation Rules:**
+- `name`: required (wajib diisi)
 
-- **URL**: `/publishers/{id}`
-- **Method**: `PUT`
-- **Authentication**: **Required**
-
-### Delete Publisher
-Menghapus penerbit.
-
-- **URL**: `/publishers/{id}`
-- **Method**: `DELETE**
-- **Authentication**: **Required**
+**Response Success (201 Created):**
+```json
+{
+    "id": 1,
+    "name": "Gramedia",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
+}
+```
 
 ---
 
-## 📚 Books Management
+### 3.3 Get Publisher by ID
 
-### Get All Books
-Mendapatkan daftar semua buku.
+**Endpoint:** `GET /api/publishers/{id}`
 
-- **URL**: `/books`
-- **Method**: `GET`
-- **Authentication**: **Required**
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
 
-**Response**:
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "name": "Gramedia",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
+}
+```
+
+---
+
+### 3.4 Update Publisher
+
+**Endpoint:** `PUT /api/publishers/{id}` atau `PATCH /api/publishers/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+    "name": "Gramedia Pustaka"
+}
+```
+
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "name": "Gramedia Pustaka",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T11:00:00.000000Z"
+}
+```
+
+---
+
+### 3.5 Delete Publisher
+
+**Endpoint:** `DELETE /api/publishers/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (204 No Content):**
+```
+(No content returned)
+```
+
+---
+
+## 4️⃣ BOOKS API
+
+### 4.1 Get All Books
+
+**Endpoint:** `GET /api/books`
+ 
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (200 OK):**
 ```json
 [
     {
@@ -775,28 +984,26 @@ Mendapatkan daftar semua buku.
         "title": "Laskar Pelangi",
         "author_id": 1,
         "publisher_id": 1,
-        "author": {
-            "id": 1,
-            "name": "Andrea Hirata"
-        },
-        "publisher": {
-            "id": 1,
-            "name": "Gramedia Pustaka Utama"
-        },
-        "created_at": "2024-01-15T10:30:00.000000Z",
-        "updated_at": "2024-01-15T10:30:00.000000Z"
+        "created_at": "2025-10-24T10:00:00.000000Z",
+        "updated_at": "2025-10-24T10:00:00.000000Z"
     }
 ]
 ```
 
-### Create New Book
-Membuat buku baru.
+---
 
-- **URL**: `/books`
-- **Method**: `POST`
-- **Authentication**: **Required**
+### 4.2 Create Book
 
-**Request Body**:
+**Endpoint:** `POST /api/books`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Request Body:**
 ```json
 {
     "title": "Laskar Pelangi",
@@ -805,128 +1012,394 @@ Membuat buku baru.
 }
 ```
 
-### Update Book
-Memperbarui data buku.
+**Validation Rules:**
+- `title`: required (wajib diisi)
+- `author_id`: required, exists in authors table
+- `publisher_id`: required, exists in publishers table
 
-- **URL**: `/books/{id}`
-- **Method**: `PUT`
-- **Authentication**: **Required**
+**Response Success (201 Created):**
+```json
+{
+    "id": 1,
+    "title": "Laskar Pelangi",
+    "author_id": 1,
+    "publisher_id": 1,
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
+}
+```
 
-### Delete Book
-Menghapus buku.
-
-- **URL**: `/books/{id}`
-- **Method**: `DELETE`
-- **Authentication**: **Required**
+**Response Error (422 Unprocessable Entity):**
+```json
+{
+    "message": "The selected author id is invalid.",
+    "errors": {
+        "author_id": [
+            "The selected author id is invalid."
+        ]
+    }
+}
+```
 
 ---
 
-## 🔄 Loans Management
+### 4.3 Get Book by ID
 
-### Get All Loans
-Mendapatkan daftar semua peminjaman.
+**Endpoint:** `GET /api/books/{id}`
 
-- **URL**: `/loans`
-- **Method**: `GET`
-- **Authentication**: **Required**
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
 
-**Response**:
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "title": "Laskar Pelangi",
+    "author_id": 1,
+    "publisher_id": 1,
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
+}
+```
+
+---
+
+### 4.4 Update Book
+
+**Endpoint:** `PUT /api/books/{id}` atau `PATCH /api/books/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+    "title": "Laskar Pelangi - Edisi Revisi",
+    "author_id": 1,
+    "publisher_id": 1
+}
+```
+
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "title": "Laskar Pelangi - Edisi Revisi",
+    "author_id": 1,
+    "publisher_id": 1,
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T11:00:00.000000Z"
+}
+```
+
+---
+
+### 4.5 Delete Book
+
+**Endpoint:** `DELETE /api/books/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (204 No Content):**
+```
+(No content returned)
+```
+
+---
+
+## 5️⃣ LOANS API
+
+### 5.1 Get All Loans
+
+**Endpoint:** `GET /api/loans`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (200 OK):**
 ```json
 [
     {
         "id": 1,
         "member_id": 1,
         "book_id": 1,
-        "loan_date": "2024-10-24",
+        "loan_date": "2025-10-24",
         "return_date": null,
-        "status": "borrowed",
-        "member": {
-            "id": 1,
-            "name": "Siti Nurhaliza"
-        },
-        "book": {
-            "id": 1,
-            "title": "Laskar Pelangi"
-        },
-        "created_at": "2024-01-15T10:30:00.000000Z",
-        "updated_at": "2024-01-15T10:30:00.000000Z"
+        "created_at": "2025-10-24T10:00:00.000000Z",
+        "updated_at": "2025-10-24T10:00:00.000000Z"
     }
 ]
 ```
 
-### Create New Loan
-Membuat peminjaman baru.
+---
 
-- **URL**: `/loans`
-- **Method**: `POST`
-- **Authentication**: **Required**
+### 5.2 Create Loan
 
-**Request Body**:
+**Endpoint:** `POST /api/loans`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Request Body:**
 ```json
 {
     "member_id": 1,
     "book_id": 1,
-    "loan_date": "2024-10-24",
+    "loan_date": "2025-10-24",
     "return_date": null
 }
 ```
 
-### Update Loan
-Memperbarui data peminjaman (misalnya: mengembalikan buku).
+**Validation Rules:**
+- `member_id`: required, exists in members table
+- `book_id`: required, exists in books table
+- `loan_date`: required, date format
+- `return_date`: nullable, date format
 
-- **URL**: `/loans/{id}`
-- **Method**: `PUT**
-- **Authentication**: **Required**
-
-**Request Body untuk Pengembalian Buku**:
+**Response Success (201 Created):**
 ```json
 {
-    "return_date": "2024-10-30"
+    "id": 1,
+    "member_id": 1,
+    "book_id": 1,
+    "loan_date": "2025-10-24",
+    "return_date": null,
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
 }
 ```
 
-### Delete Loan
-Menghapus data peminjaman.
-
-- **URL**: `/loans/{id}`
-- **Method**: `DELETE`
-- **Authentication**: **Required**
-
----
-
-## 🛠️ Testing dengan Postman
-
-### 1. Setup Authentication
-1. **Login** terlebih dahulu di endpoint `/login`
-2. **Copy token** dari response
-3. **Set Authorization Header** di Postman:
-   - Type: `Bearer Token`
-   - Token: `paste_token_di_sini`
-
-### 2. Collection Structure di Postman
-```
-Digital Library API/
-├── Authentication
-│   ├── Login (POST)
-│   └── Logout (POST)
-├── Members (CRUD)
-├── Authors (CRUD)
-├── Publishers (CRUD)
-├── Books (CRUD)
-└── Loans (CRUD)
-```
-
-### 3. Environment Variables (Opsional)
-Buat environment variables di Postman:
-```javascript
+**Response Error (422 Unprocessable Entity):**
+```json
 {
-  "base_url": "http://localhost:8000/api",
-  "token": "bearer_token_here"
+    "message": "The selected member id is invalid.",
+    "errors": {
+        "member_id": [
+            "The selected member id is invalid."
+        ]
+    }
 }
 ```
+
 ---
 
+### 5.3 Get Loan by ID
 
+**Endpoint:** `GET /api/loans/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "member_id": 1,
+    "book_id": 1,
+    "loan_date": "2025-10-24",
+    "return_date": null,
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T10:00:00.000000Z"
+}
+```
+
+---
+
+### 5.4 Update Loan (Return Book)
+
+**Endpoint:** `PUT /api/loans/{id}` atau `PATCH /api/loans/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Request Body:**
+```json
+{
+    "member_id": 1,
+    "book_id": 1,
+    "loan_date": "2025-10-24",
+    "return_date": "2025-10-31"
+}
+```
+
+**Response Success (200 OK):**
+```json
+{
+    "id": 1,
+    "member_id": 1,
+    "book_id": 1,
+    "loan_date": "2025-10-24",
+    "return_date": "2025-10-31",
+    "created_at": "2025-10-24T10:00:00.000000Z",
+    "updated_at": "2025-10-24T12:00:00.000000Z"
+}
+```
+
+---
+
+### 5.5 Delete Loan
+
+**Endpoint:** `DELETE /api/loans/{id}`
+
+**Request Headers:**
+```
+Accept: application/json
+Content-Type: application/json
+Authorization: Bearer <token>
+```
+
+**Response Success (204 No Content):**
+```
+(No content returned)
+```
+
+---
+
+## 📊 HTTP Status Codes
+
+| Status Code | Keterangan |
+|-------------|-----------|
+| 200 OK | Request berhasil (GET, PUT, PATCH) |
+| 201 Created | Data berhasil dibuat (POST) |
+| 204 No Content | Data berhasil dihapus (DELETE) |
+| 404 Not Found | Data tidak ditemukan |
+| 422 Unprocessable Entity | Validasi gagal |
+| 500 Internal Server Error | Error pada server |
+
+---
+
+## 🔧 Testing dengan Postman
+
+### Setup Postman
+
+1. **Base URL:** `http://127.0.0.1:8000/api`
+2. **Headers (untuk semua request):**
+   - `Accept: application/json`
+   - `Content-Type: application/json`
+    - `Authorization: Bearer <token>` (gunakan token hasil login)
+
+### Contoh Testing Flow
+
+#### 1. Tambah Author
+```
+POST http://127.0.0.1:8000/api/authors
+Body: {"name": "Andrea Hirata"}
+```
+
+#### 2. Tambah Publisher
+```
+POST http://127.0.0.1:8000/api/publishers
+Body: {"name": "Gramedia"}
+```
+
+#### 3. Tambah Book
+```
+POST http://127.0.0.1:8000/api/books
+Body: {
+    "title": "Laskar Pelangi",
+    "author_id": 1,
+    "publisher_id": 1
+}
+```
+
+#### 4. Tambah Member
+```
+POST http://127.0.0.1:8000/api/members
+Body: {
+    "name": "Siti",
+    "email": "siti@mail.com",
+    "phone": "081222333"
+}
+```
+
+#### 5. Create Loan
+```
+POST http://127.0.0.1:8000/api/loans
+Body: {
+    "member_id": 1,
+    "book_id": 1,
+    "loan_date": "2025-10-24",
+    "return_date": null
+}
+```
+
+#### 6. Return Book (Update Loan)
+```
+PUT http://127.0.0.1:8000/api/loans/1
+Body: {
+    "member_id": 1,
+    "book_id": 1,
+    "loan_date": "2025-10-24",
+    "return_date": "2025-10-31"
+}
+```
+
+---
+
+## 📸 Screenshot untuk Laporan
+
+Ambil screenshot dari Postman untuk setiap operasi berikut:
+
+### Members
+- ✅ GET All Members
+- ✅ POST Create Member
+- ✅ GET Member by ID
+- ✅ PUT Update Member
+- ✅ DELETE Member
+
+### Authors
+- ✅ GET All Authors
+- ✅ POST Create Author
+- ✅ PUT Update Author
+- ✅ DELETE Author
+
+### Publishers
+- ✅ GET All Publishers
+- ✅ POST Create Publisher
+- ✅ PUT Update Publisher
+- ✅ DELETE Publisher
+
+### Books
+- ✅ GET All Books
+- ✅ POST Create Book
+- ✅ PUT Update Book
+- ✅ DELETE Book
+
+### Loans
+- ✅ GET All Loans
+- ✅ POST Create Loan
+- ✅ PUT Update Loan (Return Book)
+- ✅ DELETE Loan
+---
 ## 💡 Tips Testing
 
 1. **Simpan token** setelah login untuk digunakan di request berikutnya

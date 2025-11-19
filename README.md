@@ -524,7 +524,7 @@ Body (JSON):
 ## 📋 Daftar Endpoint
 
 ### [1. Members (Anggota)](#1️⃣-members-api)
-### [2. Authors (Penulis)](2️⃣-AUTHORS-API)
+### [2. Authors (Penulis)](#2️⃣-authors-api)
 ### [3. Publishers (Penerbit)](#3️⃣-publishers-api)
 ### [4. Books (Buku)](#4️⃣-books-api)
 ### [5. Loans (Peminjaman)](#5️⃣-loans-api)

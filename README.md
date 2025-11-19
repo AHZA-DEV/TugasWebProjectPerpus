@@ -62,7 +62,7 @@ Namun, jika Anda perlu memodifikasi atau memastikan middleware tersebut ada, `bo
 php artisan make:model Admin -m
 ```
 
-### Edit file `create_admins_table.php`:
+### Edit file `backend/database/migrations/create_admins_table.php`:
 
 ```php
 <?php
@@ -90,8 +90,7 @@ return new class extends Migration
 };
 ```
 
-### Buat Model Admin:
-
+### Buat Model Admin Edit file `app/Models/Admin.php`:
 ```php
 <?php
 namespace App\Models;
@@ -287,7 +286,7 @@ class AdminSeeder extends Seeder
 }
 ```
 
-Tambahkan ke `database/seeders/DatabaseSeeder.phpDatabaseSeeder.php`:
+Tambahkan ke `database/seeders/DatabaseSeeder.php`:
 
 ```php
 <?php
